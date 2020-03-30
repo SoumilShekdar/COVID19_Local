@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.12.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.12.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.12.0/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/7.12.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.12.0/firebase-storage.js"></script>
+    <script defer src="/__/firebase/7.12.0/firebase-functions.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type = "text/css">
+      #map {
+        height: 100%;
+      }
+      #logo {
+        position: absolute; /* Reposition logo from the natural layout */
+        left: 2%;
+        top: 0%;
+        display: block;
+        display: inline-block;
+        text-align: center;
+        height: 10%;
+        z-index: 2;
+        font-size: 4vw;
+        font-weight: 900;
+        color: white;
+        padding-bottom: 7%;
+        background: rgba(0,0,0,0.2);
+      }
+      #info {
+        position: absolute; /* Reposition logo from the natural layout */
+        left: 2%;
+        bottom: 5%;
+        width: 35%;
+        height: 25%;
+        z-index: 2;
+        white-space: pre-wrap;
+      }
+      #info_add {
+        position: absolute; /* Reposition logo from the natural layout */
+        left: 2%;
+        bottom: 18%;
+        width: 35%;
+        height: 25%;
+        z-index: 2;
+        white-space: pre-wrap;
+      }
+      #add {
+        position: absolute; /* Reposition logo from the natural layout */
+        right: 5%;
+        bottom: 5%;
+        z-index: 2;
+        display: block;
+        display: inline-block;
+        text-align: center;
+        height: 10%;
+        line-height: 1%;
+        font-size: 4vw;
+        font-weight: 900;
+      }
+      #done {
+        position: absolute; /* Reposition logo from the natural layout */
+        right: 5%;
+        bottom: 5%;
+        z-index: 2;
+        display: block;
+        display: inline-block;
+        text-align: center;
+        height: 10%;
+        line-height: 1%;
+        font-size: 4vw;
+        font-weight: 900;
+        display: none;
+      }
+      #cancel {
+        position: absolute; /* Reposition logo from the natural layout */
+        left: 5%;
+        bottom: 5%;
+        z-index: 2;
+        display: block;
+        display: inline-block;
+        text-align: center;
+        height: 10%;
+        line-height: 1%;
+        font-size: 4vw;
+        font-weight: 900;
+        display: none;
+      }
+      #noData {
+        position: absolute; /* Reposition logo from the natural layout */
+        left: 35%;
+        bottom: 50%;
+        width: 30%;
+        height: 10%;
+        z-index: 2;
+        white-space: pre-wrap;
+        display: none;
+      }
+      #small{
+        font-size: 1vw;
+      } 
+      #large{
+        font-size: 4vw;
+        font-weight: 900;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id = "logo"> Find COVID 19 </div>
+    <button type="button" class="btn btn-secondary" id = "info" onclick="infoRemove()">The red circles indicate locations visited in the past two weeks by people who have now tested positive for COVID 19. The intensity, and sizes of the circles indicate the freqency of visits. This data is voluntarily submitted, so this is not an exhaustive list. Self Qaurantine is the best way to keep yourself and the world safe.
+    </button>
+    <button type="button" class="btn btn-secondary" id = "info_add" onclick="info_addRemove()">Please only add locations if you have tested positive for COVID 19. While we do want to be cautious adding locations without exposure only adds to the panic. You can add locations by tapping on the map. Refrain from adding the same location multiple times to ensure that the data is not skewed. 
+    </button>
+    <button type="button" class="btn btn-secondary" id = "noData" onclick="hideNoData()">There is currently no data available for your location. Please zoom out.</button>
+    <button type="button" class="btn btn-secondary" id = "add" onclick="googleLogin()"><p id = "large">+</p></button>
+    <button type="button" class="btn btn-secondary" id = "done" onclick="addLocations()"><p id = "large">&#10003</p></button> 
+    <button type="button" class="btn btn-secondary" id = "cancel" onclick="initMap()"><p id = "large">&#10005</p></button> 
+    <div id = "map"></div>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9tP3q2er-Je7r-YVnVXI0yThWjQtOAcA
+      &libraries=visualization&callback=initMap">
+    </script>
+    <script src = "firebasemap.js">
+    </script>
+    <script src = "login.js">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
