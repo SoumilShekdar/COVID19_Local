@@ -264,7 +264,8 @@ function removeOldMarker() {
 }
 
 function showInfo(event){
-    var contentString = this.radius * max_count / 10 *  + ' Visits'
+    console.log( (this.radius * max_count / 10).toString());
+    var contentString = (this.radius * max_count / 10).toString()  + ' Visits'
     
     infoWindow.setContent(contentString);
     infoWindow.setPosition(event.latLng);
